@@ -1,12 +1,18 @@
 #include <gtk/gtk.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 typedef struct {
     GtkWidget *w_dlg_about;             // Pointer to about dialog box
+    GtkTextBuffer *textbuffer_main;
+    GtkTextBuffer *textbuffer_secondary;
 } app_widgets;
 
 
 int main(int argc, char *argv[])
 {
+
     GtkBuilder      *builder; 
     GtkWidget       *window;
     // instantiate structure, allocating memory for it
@@ -19,6 +25,8 @@ int main(int argc, char *argv[])
     window = GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
 
     widgets->w_dlg_about = GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
+    widgets->textbuffer_main = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "textbuffer1"));
+    widgets->textbuffer_secondary = GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "textbuffer2"));
 
     gtk_builder_connect_signals(builder, widgets);
 
@@ -44,4 +52,58 @@ void on_about_activate(GtkMenuItem *menuitem, app_widgets *app_wdgts){
 // About dialog box Close button
 void on_window_about_response(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts){
     gtk_widget_hide(app_wdgts->w_dlg_about);
+}
+
+void clear(GtkButton *button, app_widgets *app_wdgts){
+    GtkTextIter start;
+    GtkTextIter end;
+    gtk_text_buffer_get_start_iter (app_wdgts->textbuffer_main, &start);
+    gtk_text_buffer_get_end_iter (app_wdgts->textbuffer_main, &end);
+    gchar *text = gtk_text_buffer_get_text (app_wdgts->textbuffer_main, &start, &end, FALSE);
+    // Clear the text from window "Close the file"
+    gtk_text_buffer_set_text(app_wdgts->textbuffer_main, "", -1);
+    gtk_text_buffer_set_text(app_wdgts->textbuffer_secondary, text, -1);
+}
+void on_0_clicked(GtkButton *button, app_widgets *app_wdgts){
+    GtkTextIter start;
+    GtkTextIter end;
+    gtk_text_buffer_get_start_iter(app_wdgts->textbuffer_main, &start);
+    gtk_text_buffer_get_end_iter(app_wdgts->textbuffer_main, &end);
+    gchar *text = gtk_text_buffer_get_text(app_wdgts->textbuffer_main, &start, &end, FALSE);
+
+    strcat(text,"0");
+
+    gtk_text_buffer_set_text(app_wdgts->textbuffer_main, text, -1);
+}
+
+// void parenthesis(char *text){}
+void plus(char *text){
+    int d = atoi(text);
+    printf("number is %d\n", d);
+    size_t i = 0;
+    while (TRUE)
+    {
+        if(text[i]==0x00)break;
+        int a = text[i++]-'0';
+        if(a>9)break;
+        printf("text[i]:[%d]\n",a);
+    }
+    // return d;
+}
+
+void on_eq_clicked(GtkButton *button, app_widgets *app_wdgts){
+    GtkTextIter start;
+    GtkTextIter end;
+    gtk_text_buffer_get_start_iter(app_wdgts->textbuffer_main, &start);
+    gtk_text_buffer_get_end_iter(app_wdgts->textbuffer_main, &end);
+    gchar *text = gtk_text_buffer_get_text(app_wdgts->textbuffer_main, &start, &end, FALSE);
+
+    plus(text);
+/* 
+    size_t i = 0;
+    while (TRUE)
+    {
+        if(text[i++]==0x00)break;
+    }
+ */    
 }
