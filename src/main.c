@@ -82,10 +82,16 @@ long double ten_power(int n){
 }
 long double suuji(char *text){
     int a=0; // bool
+    int e=0; // text position
     long double array[9];    // changable
     // long double num=atoi(text);
 
-    int e=0; // text position
+    // check negetive
+    int n=0; // negetive boolean
+    if(text[0]==0x2d){n=1;e++;}
+
+
+
     long double num=0;
     for (;text[e]!=0x00;e++){
         if(text[e]==0x2e){a=1;break;}
@@ -103,6 +109,7 @@ long double suuji(char *text){
         for(int d=0;d<i;d++)
         num+=(array[d]/ten_power(d+1));
     }
+    if(n)num*=-1;
     printf("num: %Lf\n",num);
     return num;
 }
