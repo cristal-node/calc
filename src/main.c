@@ -3,18 +3,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include "tinyexpr.h"
 
 typedef struct {
     GtkWidget *w_dlg_about;             // Pointer to about dialog box
     GtkTextBuffer *textbuffer_main;
     GtkTextBuffer *textbuffer_secondary;
 } app_widgets;
-
+/* 
 typedef struct {
     char p1[256];
     char p2[256];
 }string;
-
+ */
 // typedef char marray[];
 
 int main(int argc, char *argv[])
@@ -78,6 +79,7 @@ void on_0_clicked(GtkButton *button, app_widgets *app_wdgts){
 
     gtk_text_buffer_set_text(app_wdgts->textbuffer_main, text, -1);
 }
+/* 
 long double ten_power(int n){
     long double a[6] = {1,10,100,1000,10000,100000};
     return a[n];
@@ -138,15 +140,18 @@ void plus(char *text){
     printf("p1 is:%s\n",txt.p1);
     // suuji(d[0]);
     }
-
+ */
 void on_eq_clicked(GtkButton *button, app_widgets *app_wdgts){
     GtkTextIter start;
     GtkTextIter end;
     gtk_text_buffer_get_start_iter(app_wdgts->textbuffer_main, &start);
     gtk_text_buffer_get_end_iter(app_wdgts->textbuffer_main, &end);
     gchar *text = gtk_text_buffer_get_text(app_wdgts->textbuffer_main, &start, &end, FALSE);
-
-    plus(text);
+    gchar tmp[1024];
+    snprintf(tmp,1024,"%f",te_interp(text,0));
+    gtk_text_buffer_set_text(app_wdgts->textbuffer_secondary, text, -1);
+    gtk_text_buffer_set_text(app_wdgts->textbuffer_main, tmp, -1);
+    // plus(text);
     // suuji(text);
 /* 
     size_t i = 0;
