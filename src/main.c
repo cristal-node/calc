@@ -10,6 +10,12 @@ typedef struct {
     GtkTextBuffer *textbuffer_secondary;
 } app_widgets;
 
+typedef struct {
+    char p1[256];
+    char p2[256];
+}string;
+
+// typedef char marray[];
 
 int main(int argc, char *argv[])
 {
@@ -41,19 +47,15 @@ int main(int argc, char *argv[])
 }
 
 // called when window is closed
-void on_window_main_destroy(){
-    gtk_main_quit();
-}
+void on_window_main_destroy(){gtk_main_quit();}
 
 // Help --> About
 void on_about_activate(GtkMenuItem *menuitem, app_widgets *app_wdgts){
-    gtk_widget_show(app_wdgts->w_dlg_about);
-}
+    gtk_widget_show(app_wdgts->w_dlg_about);}
 
 // About dialog box Close button
 void on_window_about_response(GtkDialog *dialog, gint response_id, app_widgets *app_wdgts){
-    gtk_widget_hide(app_wdgts->w_dlg_about);
-}
+    gtk_widget_hide(app_wdgts->w_dlg_about);}
 
 void clear(GtkButton *button, app_widgets *app_wdgts){
     GtkTextIter start;
@@ -113,22 +115,29 @@ long double suuji(char *text){
     printf("num: %Lf\n",num);
     return num;
 }
-
+void *split(char *text, unsigned char symbol, string s){
+    static char array[2][80];
+    int p=0;
+    for(size_t i=0;TRUE;i++){
+        if(text[i]==0x00){array[p][i]=0x00;break;}
+        if(text[i]==symbol){array[p][i]=0x00;p++;continue;}
+        array[p][i]=text[i];
+    }
+    strcpy(s.p1,"test1");
+    printf("p1 is:%s\n",s.p1);
+    // s.p1=array[0];
+    // s.p2=array[1];
+    // return array;
+}
 
 // void parenthesis(char *text){}
 void plus(char *text){
-    int d = atoi(text);
-    printf("number is %d\n", d);
-    size_t i = 0;
-    while (TRUE)
-    {
-        if(text[i]==0x00)break;
-        int a = text[i++]-'0';
-        if(a>9)break;
-        printf("text[i]:[%d]\n",a);
+    // marray *d = split(text,0x2b);
+    string txt;
+    split(text,0x2b,txt);
+    printf("p1 is:%s\n",txt.p1);
+    // suuji(d[0]);
     }
-    // return d;
-}
 
 void on_eq_clicked(GtkButton *button, app_widgets *app_wdgts){
     GtkTextIter start;
@@ -137,8 +146,8 @@ void on_eq_clicked(GtkButton *button, app_widgets *app_wdgts){
     gtk_text_buffer_get_end_iter(app_wdgts->textbuffer_main, &end);
     gchar *text = gtk_text_buffer_get_text(app_wdgts->textbuffer_main, &start, &end, FALSE);
 
-    // plus(text);
-    suuji(text);
+    plus(text);
+    // suuji(text);
 /* 
     size_t i = 0;
     while (TRUE)
