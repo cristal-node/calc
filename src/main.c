@@ -68,17 +68,63 @@ void clear(GtkButton *button, app_widgets *app_wdgts){
     gtk_text_buffer_set_text(app_wdgts->textbuffer_main, "", -1);
     gtk_text_buffer_set_text(app_wdgts->textbuffer_secondary, text, -1);
 }
-void on_0_clicked(GtkButton *button, app_widgets *app_wdgts){
+void char_append(char *ch, app_widgets *app_wdgts){
     GtkTextIter start;
     GtkTextIter end;
     gtk_text_buffer_get_start_iter(app_wdgts->textbuffer_main, &start);
     gtk_text_buffer_get_end_iter(app_wdgts->textbuffer_main, &end);
     gchar *text = gtk_text_buffer_get_text(app_wdgts->textbuffer_main, &start, &end, FALSE);
 
-    strcat(text,"0");
+    strcat(text,ch);
 
     gtk_text_buffer_set_text(app_wdgts->textbuffer_main, text, -1);
 }
+
+void char_front_append(char *ch, app_widgets *app_wdgts){
+    char tmp[1024];
+    strcpy(tmp,ch);
+    GtkTextIter start;
+    GtkTextIter end;
+    gtk_text_buffer_get_start_iter(app_wdgts->textbuffer_main, &start);
+    gtk_text_buffer_get_end_iter(app_wdgts->textbuffer_main, &end);
+    gchar *text = gtk_text_buffer_get_text(app_wdgts->textbuffer_main, &start, &end, FALSE);
+
+    strcat(tmp,text);
+
+    gtk_text_buffer_set_text(app_wdgts->textbuffer_main, tmp, -1);
+}
+
+void on_0_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("0",app_wdgts);}
+void on_1_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("1",app_wdgts);}
+void on_2_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("2",app_wdgts);}
+void on_3_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("3",app_wdgts);}
+void on_4_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("4",app_wdgts);}
+void on_5_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("5",app_wdgts);}
+void on_6_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("6",app_wdgts);}
+void on_7_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("7",app_wdgts);}
+void on_8_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("8",app_wdgts);}
+void on_9_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("9",app_wdgts);}
+void on_dot_clicked(GtkButton *button, app_widgets *app_wdgts){char_append(".",app_wdgts);}
+void on_per_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("\%",app_wdgts);}
+void on_mult_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("*",app_wdgts);}
+void on_div_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("/",app_wdgts);}
+void on_plus_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("+",app_wdgts);}
+void on_minus_clicked(GtkButton *button, app_widgets *app_wdgts){char_append("-",app_wdgts);}
+void on_brac_close_clicked(GtkButton *button, app_widgets *app_wdgts){char_append(")",app_wdgts);}
+void on_brac_open_clicked(GtkButton *button, app_widgets *app_wdgts){char_front_append("(",app_wdgts);}
+void on_log_clicked(GtkButton *button, app_widgets *app_wdgts){
+    char_front_append("log(",app_wdgts);
+    char_append(")",app_wdgts);
+    }
+void on_sq_clicked(GtkButton *button, app_widgets *app_wdgts){
+    char_front_append("(",app_wdgts);
+    char_append(")^2",app_wdgts);}
+void on_sine_clicked(GtkButton *button, app_widgets *app_wdgts){
+    char_front_append("sin(",app_wdgts);
+    char_append(")",app_wdgts);}
+
+
+
 /* 
 long double ten_power(int n){
     long double a[6] = {1,10,100,1000,10000,100000};
